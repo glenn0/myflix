@@ -11,3 +11,6 @@ Video.find_or_create_by_title(title: 'Family Guy', description: "Lucky there's a
 Video.find_or_create_by_title(title: 'Monk', description: "A quirky detective solves crime.", small_cover_url: '/tmp/monk.jpg', large_cover_url: '/tmp/monk_large.jpg')
 Video.find_or_create_by_title(title: 'Futurama', description: "Fry moves to the future to deliver pizza and more.", small_cover_url: '/tmp/futurama.jpg')
 Video.find_or_create_by_title(title: 'South Park', description: "Come on down to South Park and meet some friends of mine.", small_cover_url: '/tmp/south_park.jpg')
+
+Category.find_or_create_by_name(name: 'Comedy')
+Category.find_or_create_by_name(name: 'Drama')
