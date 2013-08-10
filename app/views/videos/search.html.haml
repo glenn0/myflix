@@ -1,0 +1,5 @@
+.videos.row
+  - @results.each do |r|
+    .video.span2
+      = link_to video_path(r.id), nil do
+        %img(src="#{r.small_cover_url}")
