@@ -11,4 +11,6 @@ describe Video do
     Video.first.title.should == "Family Guy"
   end
 
+  it { should belong_to(:category) }
+
 end
