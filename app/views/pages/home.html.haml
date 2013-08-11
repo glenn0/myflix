@@ -3,7 +3,7 @@
     %header
       %h3= link_to c.name, category_path(c.id)
     .videos.row
-      - c.videos.each do |v|
+      - Category.recent_videos(c).each do |v|
         .video.span2
           = link_to video_path(v.id), nil do
             %img(src="#{v.small_cover_url}")
