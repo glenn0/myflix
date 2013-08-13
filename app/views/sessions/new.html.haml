@@ -1,13 +1,13 @@
 %section.sign_in.container
   .row
     .span10.offset1
-      %form.sign_in
+      = form_tag sessions_path, class: 'sign_in' do
         %header
           %h1 Sign in
         %fieldset
-          %label Email Address
-          %input(type="email")
-          %label Password
-          %input(type="password")
+          = label_tag :email, "Email"
+          = email_field_tag :email
+          = label_tag :password
+          = password_field_tag :password
         %fieldset.action
           %input(type="submit" value="Sign in" class="btn")
