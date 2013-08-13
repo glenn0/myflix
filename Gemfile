@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.11'
 gem 'haml-rails'
 gem 'bootstrap-sass'
+gem 'jquery-rails'
+gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bootstrap_forms'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -27,5 +30,3 @@ end
 group :production do
   gem 'pg'
 end
-
-gem 'jquery-rails'
