@@ -20,9 +20,29 @@ describe UsersController do
       end
     end
     context "with invalid input" do
-      it "does not create a user"
-      it "renders the :new template"
-      it "sets @user"
+      it "does not create a user without email" do
+        expect{
+          post :create, user: { email: "", password: "password", full_name: "Some One" }
+        }.to change(User, :count).by(0)
+      end
+      it "does not create a user without password" do
+        expect{
+          post :create, user: { email: "test@email.com", password: "", full_name: "Some One" }
+        }.to change(User, :count).by(0)
+      end
+      it "does not create a user without name" do
+        expect{
+          post :create, user: { email: "", password: "password", full_name: "" }
+        }.to change(User, :count).by(0)
+      end
+      it "renders the :new template" do
+        post :create, user: { email: "", password: "password", full_name: "Some One" }
+        expect(response).to render_template :new
+      end
+      it "sets @user" do
+        post :create, user: { email: "", password: "password", full_name: "Some One" }
+        expect(assigns(:user)).to be_a_new(User)
+      end
     end
   end
 end
