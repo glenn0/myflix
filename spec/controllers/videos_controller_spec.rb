@@ -3,9 +3,8 @@ require 'spec_helper'
 describe VideosController do
   describe "GET show" do
     context "with authenticated user" do
-      before do
-        session[:user_id] = Fabricate(:user).id
-      end
+      before { session[:user_id] = Fabricate(:user).id }
+
       it "assigns the requested video to @video" do
         video = Fabricate(:video)
         get :show, id: video
@@ -23,9 +22,8 @@ describe VideosController do
 
   describe "POST search" do
     context "with authenticated user" do
-      before do
-        session[:user_id] = Fabricate(:user).id
-      end
+      before { session[:user_id] = Fabricate(:user).id }
+
       it "assigns results to @results" do
         video = Video.create(title: "Family Guy", description: "A description.")
         post :search, search_term: "Family"
