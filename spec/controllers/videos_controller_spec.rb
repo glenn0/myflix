@@ -11,6 +11,7 @@ describe VideosController do
         expect(assigns(:video)).to eq video
       end
     end
+
     context "with unauthenticated user" do
       it "redirects user to sign in page" do
         video = Fabricate(:video)
@@ -29,6 +30,7 @@ describe VideosController do
         expect(assigns(:results)).to eq [video]
       end
     end
+    
     context "with unauthenticated user" do
       it "redirect user to sign in page" do
         video = Video.create(title: "Family Guy", description: "A description.")
