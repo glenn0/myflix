@@ -4,7 +4,7 @@ describe UsersController do
   describe "GET new" do
     it "sets @user" do
       get :new
-      expect(assigns(:user)).to be_a_new(User)
+      expect(assigns(:user)).to be_a_new User
     end
   end
   describe "POST create" do
@@ -31,7 +31,7 @@ describe UsersController do
       end
       it "sets @user" do
         post_invalid_inputs
-        expect(assigns(:user)).to be_a_new(User)
+        expect(assigns(:user)).to be_a_new User
       end
     end
   end
