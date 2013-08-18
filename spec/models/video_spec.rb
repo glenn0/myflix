@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Video do
 
-  #it { should have_many :reviews }
+  it { should have_many :reviews }
   
   it { should belong_to :category }
 
