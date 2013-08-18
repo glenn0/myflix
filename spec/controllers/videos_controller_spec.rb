@@ -24,10 +24,11 @@ describe VideosController do
       end
 
       it "calculates average rating" do
-        review1 = Fabricate(:review, rating: 1, video: video)
+        review1 = Fabricate(:review, rating: 2, video: video)
+        review2 = Fabricate(:review, rating: 4, video: video)
         review2 = Fabricate(:review, rating: 5, video: video)
         get :show, id: video
-        video.average_rating.should eq 3
+        video.average_rating.should eq 3.7
       end
     end
 

@@ -19,3 +19,4 @@ southpark = comedy.videos.create(title: 'South Park', description: "Come on down
 
 Review.create(user: glenn, video: monk, rating: 4, review_text: "Pretty good show, but there are better crime series out there.")
 Review.create(user: bob, video: monk, rating: 2, review_text: "Worst show I've ever seen!")
+Review.create(user: bob, video: monk, rating: 5, review_text: "Actually, it's not that bad.")

@@ -13,6 +13,6 @@ class Video < ActiveRecord::Base
   end
 
   def average_rating
-    self.reviews.map(&:rating).inject(0, &:+) / self.reviews.count
+    (self.reviews.map(&:rating).inject(0.0, &:+) / self.reviews.count).round(1)
   end
 end
