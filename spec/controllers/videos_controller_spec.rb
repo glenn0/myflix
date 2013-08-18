@@ -22,9 +22,8 @@ describe VideosController do
 
   describe "POST search" do
     context "with authenticated user" do
-      before { session[:user_id] = Fabricate(:user).id }
-
       it "assigns results to @results" do
+        session[:user_id] = Fabricate(:user).id
         video = Video.create(title: "Family Guy", description: "A description.")
         post :search, search_term: "Family"
         expect(assigns(:results)).to eq [video]
