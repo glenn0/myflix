@@ -15,24 +15,17 @@
 %section.reviews.container
   .row
     .span10.offset1
-      %form
+      = bootstrap_form_for [@video, Review.new] do |f|
         %fieldset
-          %label Rate this video
-          %select(name="")
-            %option(value="5") 5 Stars
-            %option(value="4") 4 Stars
-            %option(value="3") 3 Stars
-            %option(value="2") 2 Stars
-            %option(value="1") 1 Star
-          %label Write Review
-          %textarea.span6(name="" rows="6")
+          = f.select :rating, options_for_select([["5", 5], ["4", 4], ["3", 3], ["2", 2], ["1", 1]]), label: "Rate this video"
+          = f.text_area :review_text, label: "Write a review", class: "span6", rows: 6
         %fieldset.actions.clearfix
           %input(type="submit" value="Submit" class="btn")
-          %a(href="") Cancel
+          = link_to "Cancel", @video
       %header
         %h3 User Reviews (#{@video.reviews.count})
       %ul
-        - @video.reviews.each do |r|
+        - @reviews.each do |r|
           %article.review
             %li.row
               .span2

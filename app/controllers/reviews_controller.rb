@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
   def create
-    @review = Review.new(params[:rating, :review_text])
+    @video = Vi
+    @review = Review.new(params[:review])
     if @review.save
       redirect_to video_path
     else

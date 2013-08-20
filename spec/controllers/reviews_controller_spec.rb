@@ -1,21 +1,18 @@
 require 'spec_helper'
 
 describe ReviewsController do
-=begin
   describe "POST create" do
-    context "with valid input" do
-      let(:post_valid_inputs) { post :create, user: Fabricate.attributes_for(:user) }
+    context "with authenticated user" do
+      context "with valid input" do
+        
+        let(:post_valid_inputs) { post :create, review: Fabricate.attributes_for(:review) }
 
-      it "creates a user" do
-        expect{post_valid_inputs}.to change(User, :count).by(1)
+        it "creates a review" do
+          expect{post_valid_inputs}.to change(Review, :count).by(1)
+        end
       end
-
-      it "redirects to the sign in page" do
-        post_valid_inputs
-        expect(response).to redirect_to sign_in_path
-      end
-    end
-
+    context "with unauthenticated user"
+=begin
     context "with invalid input" do
       let(:post_invalid_inputs) { post :create, user: { email: "", password: "password", full_name: "Some One" } }
 
@@ -33,6 +30,6 @@ describe ReviewsController do
         expect(assigns(:user)).to be_a_new User
       end
     end
-  end
 =end
+  end
 end
