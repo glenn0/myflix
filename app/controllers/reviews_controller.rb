@@ -1,11 +1,14 @@
 class ReviewsController < ApplicationController
+  before_filter :require_user
+
   def create
-    @video = Vi
-    @review = Review.new(params[:review])
-    if @review.save
-      redirect_to video_path
+    @video = Video.find(params[:video_id])
+    review = @video.reviews.build(params[:review].merge!(user: current_user))
+    if review.save
+      redirect_to @video
     else
-      render :new
+      @reviews = @video.reviews.reload
+      render 'videos/show'
     end
   end
 end
