@@ -1,5 +1,6 @@
 Myflix::Application.routes.draw do
-  
+  root to: 'pages#front'
+
   get 'ui(/:action)', controller: 'ui'
   get 'home', to: 'pages#home'
   get '/', to: 'pages#front'
@@ -11,6 +12,7 @@ Myflix::Application.routes.draw do
     collection do
       post :search, to: "videos#search"
     end
+    resources :reviews, only: [:show, :create]
   end
 
   resources :categories, only: [:show]
