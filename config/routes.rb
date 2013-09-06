@@ -1,4 +1,4 @@
-Myflix::Application.routes.draw do
+ Myflix::Application.routes.draw do
   root to: 'pages#front'
 
   get 'ui(/:action)', controller: 'ui'
@@ -8,6 +8,8 @@ Myflix::Application.routes.draw do
   get 'sign_in', to: 'sessions#new'
   get 'sign_out', to: 'sessions#destroy'
   get 'my_queue', to: 'queue_items#index'
+
+  post 'update_queue', to: 'queue_items#update_queue'
 
   resources :videos, only: [:show] do
     collection do
