@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pry'
 
 describe QueueItemsController do
   describe "GET index" do
@@ -79,6 +80,14 @@ describe QueueItemsController do
       delete :destroy, id: queue_item
       expect(response).to redirect_to my_queue_path
     end
+    it "normalises the remaining queue items" do
+      bob = Fabricate(:user)
+      session[:user_id] = bob.id
+      queue_item1 = Fabricate(:queue_item, user: bob, position: 1)
+      queue_item2 = Fabricate(:queue_item, user: bob, position: 2)
+      delete :destroy, id: queue_item1
+      expect(queue_item2.reload.position).to eq(1)
+    end
     it "does not delete queue items of other users" do
       bob = Fabricate(:user)
       tony = Fabricate(:user)
@@ -117,13 +126,38 @@ describe QueueItemsController do
         queue_item1 = Fabricate(:queue_item, user: bob, position: 1)
         queue_item2 = Fabricate(:queue_item, user: bob, position: 2)
         post :update_queue, queue_items: [{id: queue_item1.id, position: 5}, {id: queue_item2.id, position: 2}]
-        expect(queue_item1.position).to eq(2)
-        expect(queue_item2.position).to eq(1)
+        expect(queue_item2.reload.position).to eq(1)
+        expect(queue_item1.reload.position).to eq(2)
       end
     end
     context "with invalid inputs" do
+      it "redirects to the my queue page" do
+        bob = Fabricate(:user)
+        session[:user_id] = bob.id
+        queue_item1 = Fabricate(:queue_item, user: bob, position: 1)
+        queue_item2 = Fabricate(:queue_item, user: bob, position: 2)
+        post :update_queue, queue_items: [{id: queue_item1.id, position: 2.4}, {id: queue_item2.id, position: 1}]
+        expect(response).to redirect_to my_queue_path
+      end
+      it "shows a flash error message" do
+        bob = Fabricate(:user)
+        session[:user_id] = bob.id
+        queue_item1 = Fabricate(:queue_item, user: bob, position: 1)
+        queue_item2 = Fabricate(:queue_item, user: bob, position: 2)
+        post :update_queue, queue_items: [{id: queue_item1.id, position: 2.5}, {id: queue_item2.id, position: 1}]
+        expect(flash[:error]).to be_present
+      end
+      it "does not change the queue item positions" do
+        bob = Fabricate(:user)
+        session[:user_id] = bob.id
+        queue_item1 = Fabricate(:queue_item, user: bob, position: 1)
+        queue_item2 = Fabricate(:queue_item, user: bob, position: 2)
+        post :update_queue, queue_items: [{id: queue_item1.id, position: 4}, {id: queue_item2.id, position: 1.1}]
+        expect(queue_item1.reload.position).to eq(1)
+        expect(queue_item2.reload.position).to eq(2)
+      end
     end
-    context "with unauthenticated " do
+    context "with unauthenticated users" do
       it "redirects to the sign in page for unauthenticated users" do
         session[:user_id] = nil
         post :update_queue
@@ -131,6 +165,25 @@ describe QueueItemsController do
       end
     end
     context "with queue item that is not in the current user's queue" do
+      it "redirects to the user's queue" do
+        bob = Fabricate(:user)
+        sally = Fabricate(:user)
+        session[:user_id] = bob.id
+        queue_item_sally1 = Fabricate(:queue_item, user: sally, position: 1)
+        queue_item_sally2 = Fabricate(:queue_item, user: sally, position: 2)
+        post :update_queue, queue_items: [{id: queue_item_sally1.id, position: 2}, {id: queue_item_sally2.id, position: 1}]
+        expect(response).to redirect_to my_queue_path
+      end
+      it "doesn't change another user's queue" do
+        bob = Fabricate(:user)
+        sally = Fabricate(:user)
+        session[:user_id] = bob.id
+        queue_item_sally1 = Fabricate(:queue_item, user: sally, position: 1)
+        queue_item_sally2 = Fabricate(:queue_item, user: sally, position: 2)
+        post :update_queue, queue_items: [{id: queue_item_sally1.id, position: 2}, {id: queue_item_sally2.id, position: 1}]
+        expect(queue_item_sally1.reload.position).to eq(1)
+        expect(queue_item_sally2.reload.position).to eq(2)
+      end
     end
   end
 end
