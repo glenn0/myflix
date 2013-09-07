@@ -5,4 +5,10 @@ class User < ActiveRecord::Base
   has_many :queue_items, order: "position ASC"
 
   has_secure_password
+
+  def normalise_queue_item_positions
+    queue_items.each_with_index do |qi, index|
+      qi.update_attributes(position: index+1)
+    end
+  end
 end

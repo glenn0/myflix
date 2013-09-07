@@ -14,7 +14,7 @@ class QueueItemsController < ApplicationController
   def destroy
     queue_item = QueueItem.find(params[:id])
     queue_item.destroy if queue_item.user == current_user
-    normalise_queue_item_positions
+    current_user.normalise_queue_item_positions
     redirect_to my_queue_path
   end
 
@@ -26,7 +26,7 @@ class QueueItemsController < ApplicationController
       redirect_to my_queue_path
       return
     end
-    normalise_queue_item_positions
+    current_user.normalise_queue_item_positions
     redirect_to my_queue_path
   end
 end
@@ -47,11 +47,5 @@ def update_queue_items
       queue_item = QueueItem.find(qi["id"])
       queue_item.update_attributes!(position: qi["position"]) if queue_item.user == current_user
     end
-  end
-end
-
-def normalise_queue_item_positions
-  current_user.queue_items.each_with_index do |qi, index|
-    qi.update_attributes(position: index+1)
   end
 end
