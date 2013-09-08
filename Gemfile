@@ -19,6 +19,7 @@ group :development do
   gem 'sqlite3'
   gem 'pry'
   gem 'pry-nav'
+  gem 'quiet_assets'
 end
 
 group :test, :development do

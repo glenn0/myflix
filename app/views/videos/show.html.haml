@@ -17,7 +17,7 @@
     .span10.offset1
       = bootstrap_form_for [@video, Review.new] do |f|
         %fieldset
-          = f.select :rating, options_for_select([["5", 5], ["4", 4], ["3", 3], ["2", 2], ["1", 1]]), label: "Rate this video"
+          = f.select :rating, options_for_video_rating, label: "Rate this video"
           = f.text_area :review_text, label: "Write a review", class: "span6", rows: 6
         %fieldset.actions.clearfix
           %input(type="submit" value="Submit" class="btn")
