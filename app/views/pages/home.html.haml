@@ -7,3 +7,4 @@
         .video.span2
           = link_to video_path(v.id), nil do
             %img(src="#{v.small_cover_url}")
+          %center #{v.title.split(': ').last}
