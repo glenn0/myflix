@@ -31,6 +31,8 @@
             %li.row
               .span2
                 %span Rating: #{r.rating} / 5
-                %p by <a href="">#{r.user.full_name}</a>
+                %p
+                  by
+                  = link_to r.user.full_name, r.user
               .span8
                 %p #{r.review_text}
