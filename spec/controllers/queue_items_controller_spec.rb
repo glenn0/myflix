@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 describe QueueItemsController do
   describe "GET index" do
@@ -11,9 +10,8 @@ describe QueueItemsController do
       get :index
       expect(assigns(:queue_items)).to match_array([queue_item_1, queue_item_2] )
     end
-    it "redirects unauthenticated users to the sign in page" do
-      get :index
-      expect(response).to redirect_to sign_in_path
+    it_behaves_like "requires sign in" do #trying out shared examples
+      let(:action) { get :index }
     end
   end
 
@@ -60,17 +58,15 @@ describe QueueItemsController do
       post :create, video_id: famguy.id
       expect(bob.queue_items.count).to eq(1)
     end
-    it "redirects to sign in page for unauthenticated user" do
-      session[:user_id] = nil
-      post :create, video_id: 3
-      expect(response).to redirect_to sign_in_path
+    it_behaves_like "requires sign in" do
+      let(:action) { post :create, video_id: 3 }
     end
   end
 
   describe "DELETE destroy" do
     it "deletes the queue item" do
       bob = Fabricate(:user)
-      session[:user_id] = bob.id
+      set_current_user(bob) #trying out macros
       queue_item = Fabricate(:queue_item, user: bob)
       expect{delete :destroy, id: queue_item.id}.to change(QueueItem, :count).by(-1)
     end
@@ -95,10 +91,8 @@ describe QueueItemsController do
       queue_item = Fabricate(:queue_item, user: bob)
       expect{delete :destroy, id: queue_item}.to change(QueueItem, :count).by(0)
     end
-    it "redirects to the sign in page for unauthenticated users" do
-      session[:user_id] = nil
-      delete :destroy, id: 1
-      expect(response).to redirect_to sign_in_path
+    it_behaves_like "requires sign in" do
+      let(:action) { delete :destroy, id: 1 }
     end
   end
 
@@ -158,10 +152,8 @@ describe QueueItemsController do
       end
     end
     context "with unauthenticated users" do
-      it "redirects to the sign in page for unauthenticated users" do
-        session[:user_id] = nil
-        post :update_queue
-        expect(response).to redirect_to sign_in_path
+      it_behaves_like "requires sign in" do
+        let(:action) { post :update_queue }
       end
     end
     context "with queue item that is not in the current user's queue" do

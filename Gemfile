@@ -6,8 +6,6 @@ gem 'bootstrap-sass'
 gem 'jquery-rails'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'bootstrap_forms'
-gem 'fabrication'
-gem 'faker'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -24,10 +22,13 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
+  gem 'fabrication'
+  gem 'faker'
 end
 
 group :test do
-  gem "shoulda-matchers"
+  gem 'shoulda-matchers'
+  gem 'capybara'
 end
 
 group :production do
