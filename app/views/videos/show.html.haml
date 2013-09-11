@@ -6,7 +6,7 @@
       .video_info.span3
         %header
           %h3= @video.title
-          %span Rating: #{@video.average_rating}/5.0
+          %span Rating: #{@video.reviews.count > 0 ? @video.average_rating.to_s + "/5.0" : "Not yet rated."}
         %p= @video.description
         .actions
           %a.btn.btn-primary(href="") Watch Now
@@ -31,6 +31,8 @@
             %li.row
               .span2
                 %span Rating: #{r.rating} / 5
-                %p by <a href="">#{r.user.full_name}</a>
+                %p
+                  by
+                  = link_to r.user.full_name, r.user
               .span8
                 %p #{r.review_text}
