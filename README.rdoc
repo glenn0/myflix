@@ -1,3 +1,5 @@
 == Welcome to MyFLiX
 
 A Netflix-eque video streaming application. Currently experimental.
+
+Deploy as at 2013-09-12: http://pure-hollows-4541.herokuapp.com/
