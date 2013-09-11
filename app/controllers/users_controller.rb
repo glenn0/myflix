@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :require_user, only: [:show]
+
   def new
     @user = User.new
   end
@@ -10,5 +12,11 @@ class UsersController < ApplicationController
     else
       render :new
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @queue_items = @user.queue_items
+    @reviews = @user.reviews
   end
 end

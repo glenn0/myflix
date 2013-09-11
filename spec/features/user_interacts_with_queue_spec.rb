@@ -9,7 +9,7 @@ feature "User interacts with the queue" do
     
     sign_in
 
-    find("a[href='/videos/#{futurama.id}']").click
+    click_on_a_homepage_video(futurama)
     page.should have_content futurama.title
 
     click_link "+ My Queue"
