@@ -9,6 +9,8 @@
   get 'sign_out', to: 'sessions#destroy'
   get 'my_queue', to: 'queue_items#index'
   get 'people', to: 'relationships#index'
+  get 'forgotten_password', to: 'forgotten_passwords#new'
+  get 'forgotten_password_confirmation', to: 'forgotten_passwords#confirm'
 
   post 'update_queue', to: 'queue_items#update_queue'
 
@@ -24,4 +26,5 @@
   resources :sessions, only: [:create]
   resources :queue_items, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
+  resources :forgotten_passwords, only: [:create]
 end

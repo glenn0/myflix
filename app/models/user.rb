@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :followers, class_name: "Relationship", foreign_key: :leader_id
   has_secure_password
 
+  before_create :generate_token
+
   def normalise_queue_item_positions
     queue_items.each_with_index do |qi, index|
       qi.update_attributes(position: index+1)
@@ -19,5 +21,10 @@ class User < ActiveRecord::Base
 
   def cant_follow?(leader)
     self.existing_relationship?(leader) || self == leader
+  end
+
+  private
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64
   end
 end
