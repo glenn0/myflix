@@ -18,6 +18,7 @@ group :development do
   gem 'pry'
   gem 'pry-nav'
   gem 'quiet_assets'
+  gem 'letter_opener'
 end
 
 group :test, :development do
@@ -29,6 +30,7 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
+  gem 'capybara-email'
 end
 
 group :production do
