@@ -11,6 +11,7 @@
   get 'people', to: 'relationships#index'
   get 'forgotten_password', to: 'forgotten_passwords#new'
   get 'forgotten_password_confirmation', to: 'forgotten_passwords#confirm'
+  get 'invalid_token', to: 'password_resets#invalid'
 
   post 'update_queue', to: 'queue_items#update_queue'
 
@@ -27,4 +28,5 @@
   resources :queue_items, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
   resources :forgotten_passwords, only: [:create]
+  resources :password_resets, only: [:show, :create]
 end
