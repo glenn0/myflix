@@ -19,4 +19,19 @@ describe User do
      bob = Fabricate(:user)
      expect(bob.token).to be_present
   end
+
+  describe "#follow" do
+    it "follows another user" do
+      bob = Fabricate(:user)
+      tony = Fabricate(:user)
+      bob.follow(tony)
+      expect(bob.existing_relationship?(tony)).to be_true
+    end
+    it "doesn't follow itself" do
+      bob = Fabricate(:user)
+      tony = Fabricate(:user)
+      bob.follow(bob)
+      expect(bob.existing_relationship?(bob)).to be_false
+    end
+  end
 end

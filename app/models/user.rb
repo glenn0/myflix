@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :queue_items, order: "position ASC"
   has_many :leaders, class_name: "Relationship", foreign_key: :follower_id
   has_many :followers, class_name: "Relationship", foreign_key: :leader_id
+  has_many :invitations
   has_secure_password
 
   before_create :generate_token
@@ -21,6 +22,10 @@ class User < ActiveRecord::Base
 
   def cant_follow?(leader)
     self.existing_relationship?(leader) || self == leader
+  end
+
+  def follow(user)
+    Relationship.create(follower: self, leader: user) unless cant_follow?(user)
   end
 
   private

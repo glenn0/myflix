@@ -7,9 +7,10 @@ feature "User resets password" do
     
     click_link "Forgotten password?"
     fill_in "Email Address", with: "bob@barker.com"
+    click_button "Send Email"
 
-    open_email(bob.email)
-    current_email.click_link "Reset my password."
+    open_email("bob@barker.com")
+    current_email.click_link("Reset my password.")
 
     fill_in "New Password", with: "new_password"
     click_button "Reset Password"
