@@ -61,7 +61,12 @@ describe UsersController do
         tommy = User.where(email: "tommy@trash.com").first
         expect(bob.existing_relationship?(tommy)).to be_true
       end
-      it "expires the token"
+      it "expires the token" do
+        bob = Fabricate(:user)
+        invite = Fabricate(:invitation, sender: bob, recipient_email: "tommy@trash.com")
+        post :create, user: {email: "tommy@trash.com", password: "some_password", full_name: "Tommy Trash"}, invitation_token: invite.token
+        expect(Invitation.first.token).to be_nil
+      end
     end
 
     context "with invalid input" do

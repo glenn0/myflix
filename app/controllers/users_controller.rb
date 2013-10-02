@@ -22,6 +22,8 @@ class UsersController < ApplicationController
       if params[:invitation_token].present?
         invitation = Invitation.where(token: params[:invitation_token]).first
         @user.follow(invitation.sender)
+        invitation.sender.follow(@user)
+        invitation.update_column(:token, nil)
       end
       AppMailer.welcome_email(@user).deliver 
       redirect_to sign_in_path
