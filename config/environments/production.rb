@@ -62,15 +62,16 @@ Myflix::Application.configure do
   enable_starttls_auto: true  }
 =end
 
-  ActionMailer::Base.smtp_settings = {
+  config.action_mailer.default_url_options = { host: 'www.pure-hollows-4541.com' }
+  config.action_mailer.smtp_settings = {
   :port           => ENV['MAILGUN_SMTP_PORT'], 
   :address        => ENV['MAILGUN_SMTP_SERVER'],
   :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
   :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-  :domain         => 'pure-hollows-4541.herokuapp.com',
+  :domain         => 'pure-hollows-4541',
   :authentication => :plain,
   }
-  ActionMailer::Base.delivery_method = :smtp
+  config.action_mailer.delivery_method = :smtp
 
   # Enable threaded mode
   # config.threadsafe!
