@@ -1,5 +1,3 @@
-require 'pry'
-
 class AppMailer < ActionMailer::Base
   def welcome_email(user)
     @user = user

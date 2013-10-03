@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 describe UsersController do
   describe "GET new" do
