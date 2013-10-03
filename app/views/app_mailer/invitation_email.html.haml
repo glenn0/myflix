@@ -1,0 +1,5 @@
+!!! 5
+%html(lang="en-US")
+  %head
+    %p "#{@invitation.message}"
+    %p= link_to "Accept the invitation.", register_with_invitation_url(@invitation.token)

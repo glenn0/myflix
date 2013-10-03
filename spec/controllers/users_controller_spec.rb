@@ -7,6 +7,32 @@ describe UsersController do
       expect(assigns(:user)).to be_a_new User
     end
   end
+  describe "GET new_with_invitation" do
+    it "sets @user with recipient's email" do
+      invite = Fabricate(:invitation)
+      get :new_with_invitation, token: invite.token
+      expect(assigns(:user).email).to eq(invite.recipient_email)
+    end
+    it "sets @user with recipient's name" do
+      invite = Fabricate(:invitation)
+      get :new_with_invitation, token: invite.token
+      expect(assigns(:user).full_name).to eq(invite.recipient_name)
+    end
+    it "sets @invitation_token" do
+      invite = Fabricate(:invitation)
+      get :new_with_invitation, token: invite.token
+      expect(assigns(:invitation_token)).to eq(invite.token)
+    end
+    it "renders the new user template" do
+      invite = Fabricate(:invitation)
+      get :new_with_invitation, token: invite.token
+      expect(response).to render_template(:new)
+    end
+    it "redirects to the token expired page if the token is not valid" do
+      get :new_with_invitation, token: '123abc'
+      expect(response).to redirect_to invalid_token_path
+    end
+  end
   describe "POST create" do
     context "with valid input" do
       let(:post_valid_inputs) { post :create, user: Fabricate.attributes_for(:user) }
@@ -18,6 +44,27 @@ describe UsersController do
       it "redirects to the sign in page" do
         post_valid_inputs
         expect(response).to redirect_to sign_in_path
+      end
+
+      it "creates a follow relationship from user to sender" do
+        bob = Fabricate(:user)
+        invite = Fabricate(:invitation, sender: bob, recipient_email: "tommy@trash.com")
+        post :create, user: {email: "tommy@trash.com", password: "some_password", full_name: "Tommy Trash"}, invitation_token: invite.token
+        tommy = User.where(email: "tommy@trash.com").first
+        expect(tommy.existing_relationship?(bob)).to be_true
+      end
+      it "creates a follow relationship from the sender to the user" do
+        bob = Fabricate(:user)
+        invite = Fabricate(:invitation, sender: bob, recipient_email: "tommy@trash.com")
+        post :create, user: {email: "tommy@trash.com", password: "some_password", full_name: "Tommy Trash"}, invitation_token: invite.token
+        tommy = User.where(email: "tommy@trash.com").first
+        expect(bob.existing_relationship?(tommy)).to be_true
+      end
+      it "expires the token" do
+        bob = Fabricate(:user)
+        invite = Fabricate(:invitation, sender: bob, recipient_email: "tommy@trash.com")
+        post :create, user: {email: "tommy@trash.com", password: "some_password", full_name: "Tommy Trash"}, invitation_token: invite.token
+        expect(Invitation.first.token).to be_nil
       end
     end
 
