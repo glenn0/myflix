@@ -8,6 +8,7 @@
           = f.email_field :email, label: "Email"
           = f.password_field :password, label: "Password"
           = f.text_field :full_name, label: "Full Name"
+          = hidden_field_tag :invitation_token, @invitation_token
         %fieldset.credit_card
           .control-group
             %label.control-label Credit Card Number

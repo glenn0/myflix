@@ -5,6 +5,7 @@
   get 'home', to: 'pages#home'
   get '/', to: 'pages#front'
   get 'register', to: 'users#new'
+  get 'register/:token', to: 'users#new_with_invitation', as: 'register_with_invitation'
   get 'sign_in', to: 'sessions#new'
   get 'sign_out', to: 'sessions#destroy'
   get 'my_queue', to: 'queue_items#index'
@@ -29,4 +30,5 @@
   resources :relationships, only: [:create, :destroy]
   resources :forgotten_passwords, only: [:create]
   resources :password_resets, only: [:show, :create]
+  resources :invitations, only: [:new, :create]
 end

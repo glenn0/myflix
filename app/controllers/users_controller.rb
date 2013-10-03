@@ -5,9 +5,26 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def new_with_invitation
+    invitation = Invitation.where(token: params[:token]).first
+    if invitation
+      @user = User.new(email: invitation.recipient_email, full_name: invitation.recipient_name)
+      @invitation_token = invitation.token
+      render :new
+    else
+      redirect_to invalid_token_path
+    end
+  end
+
   def create
     @user = User.new(params[:user])
     if @user.save
+      if params[:invitation_token].present?
+        invitation = Invitation.where(token: params[:invitation_token]).first
+        @user.follow(invitation.sender)
+        invitation.sender.follow(@user)
+        invitation.update_column(:token, nil)
+      end
       AppMailer.welcome_email(@user).deliver 
       redirect_to sign_in_path
     else

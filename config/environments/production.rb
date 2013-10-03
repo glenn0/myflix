@@ -50,6 +50,7 @@ Myflix::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
+=begin
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
@@ -59,6 +60,18 @@ Myflix::Application.configure do
   password:             ENV['GMAIL_PWORD'],
   authentication:       'plain',
   enable_starttls_auto: true  }
+=end
+
+  config.action_mailer.default_url_options = { host: 'www.pure-hollows-4541.com' }
+  config.action_mailer.smtp_settings = {
+  :port           => ENV['MAILGUN_SMTP_PORT'], 
+  :address        => ENV['MAILGUN_SMTP_SERVER'],
+  :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
+  :password       => ENV['MAILGUN_SMTP_PASSWORD'],
+  :domain         => 'pure-hollows-4541',
+  :authentication => :plain,
+  }
+  config.action_mailer.delivery_method = :smtp
 
   # Enable threaded mode
   # config.threadsafe!
