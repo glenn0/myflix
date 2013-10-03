@@ -10,8 +10,6 @@ class User < ActiveRecord::Base
   has_many :invitations
   has_secure_password
 
-  before_create :generate_token
-
   def normalise_queue_item_positions
     queue_items.each_with_index do |qi, index|
       qi.update_attributes(position: index+1)
@@ -28,10 +26,5 @@ class User < ActiveRecord::Base
 
   def follow(user)
     Relationship.create(follower: self, leader: user) unless cant_follow?(user)
-  end
-
-  private
-  def generate_token
-    self.token = SecureRandom.urlsafe_base64
   end
 end
