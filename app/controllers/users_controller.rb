@@ -25,7 +25,7 @@ class UsersController < ApplicationController
         invitation.sender.follow(@user)
         invitation.update_column(:token, nil)
       end
-      AppMailer.welcome_email(@user).deliver 
+      AppMailer.delay.welcome_email(@user)
       redirect_to sign_in_path
     else
       render :new
