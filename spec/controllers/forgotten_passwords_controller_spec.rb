@@ -22,6 +22,7 @@ describe ForgottenPasswordsController do
         Fabricate(:user, email: "bob@barker.com")
         post :create, email: "bob@barker.com" 
         expect(ActionMailer::Base.deliveries.last.to).to eq(["bob@barker.com"])
+        ActionMailer::Base.deliveries.clear
       end
     end
     context "with non-matching email" do

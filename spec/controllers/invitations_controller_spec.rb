@@ -50,7 +50,8 @@ describe InvitationsController do
       it "doesn't send out an email" do
         set_current_user
         post :create, invitation: { recipient_email: "tommy@trash.com", message: "Join up!"}
-        expect(ActionMailer::Base.deliveries).to be_empty 
+        expect(ActionMailer::Base.deliveries).to be_empty
+        ActionMailer::Base.deliveries.clear
       end
       it "shows an error message" do
         set_current_user
