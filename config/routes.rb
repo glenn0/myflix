@@ -16,6 +16,10 @@
 
   post 'update_queue', to: 'queue_items#update_queue'
 
+  namespace :admin do
+    resources :videos, only: [:new, :create]
+  end
+
   resources :videos, only: [:show] do
     collection do
       post :search, to: "videos#search"
