@@ -33,7 +33,8 @@ describe Admin::VideosController do
     context "with valid input" do
       it "redirects to the add new video page" do
         set_admin_user
-        post :create
+        cat = Fabricate(:category)
+        post :create, video: { title: "Family Guy", category_id: cat.id, description: "Something." }
         expect(response).to redirect_to new_admin_video_path
       end
       it "creates a video" do
@@ -57,9 +58,24 @@ describe Admin::VideosController do
         post :create, video: { category_id: cat.id, description: "Something." }
         expect(cat.videos.count).to eq(0)
       end
-      it "redirects to the add new video page"
-      it "sets the @video variable"
-      it "sets the flash success message"
+      it "redirects to the add new video page" do
+        set_admin_user
+        post :create
+        expect(response).to render_template :new
+      end
+      it "sets the @video variable" do
+        set_admin_user
+        cat = Fabricate(:category)
+        post :create, video: { category_id: cat.id, description: "Something." }
+        expect(assigns(:video)).to be_present
+
+      end
+      it "sets the flash error message" do
+        set_admin_user
+        cat = Fabricate(:category)
+        post :create, video: { category_id: cat.id, description: "Something." }
+        expect(flash[:error]).to be_present
+      end
     end
   end
 end

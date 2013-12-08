@@ -9,7 +9,7 @@
           %span Rating: #{@video.reviews.count > 0 ? @video.average_rating.to_s + "/5.0" : "Not yet rated."}
         %p= @video.description
         .actions
-          %a.btn.btn-primary(href="") Watch Now
+          %a.btn.btn-primary(href="#{@video.video_link}") Watch Now
           - if current_user.queue_items.where(video_id: @video.id).first == nil
             = link_to "+ My Queue", queue_items_path(video_id: @video.id), method: :post, class: 'btn'
 
