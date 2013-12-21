@@ -25,6 +25,13 @@ class UsersController < ApplicationController
         invitation.sender.follow(@user)
         invitation.update_column(:token, nil)
       end
+      Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+      Stripe::Charge.create(
+        :amount => 999,
+        :currency => "usd",
+        :card => params[:stripeToken],
+        :description => "MyFlix subscription for #{@user.email}."
+      )
       AppMailer.delay.welcome_email(@user)
       redirect_to sign_in_path
     else
