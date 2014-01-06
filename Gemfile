@@ -38,6 +38,8 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'capybara-email'
+  gem 'vcr'
+  gem 'webmock', '~> 1.11.0'
 end
 
 group :production do
