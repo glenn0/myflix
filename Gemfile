@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.11'
 gem 'haml-rails'
 gem 'bootstrap-sass'
+gem 'nokogiri', '~> 1.6.0'
 gem 'jquery-rails'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'bootstrap_forms'
@@ -40,6 +41,8 @@ group :test do
   gem 'capybara-email'
   gem 'vcr'
   gem 'webmock', '~> 1.11.0'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end
 
 group :production do

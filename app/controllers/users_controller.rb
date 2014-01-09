@@ -28,6 +28,7 @@ class UsersController < ApplicationController
         @user.save
         handle_invitation
         AppMailer.delay.welcome_email(@user)
+        flash[:success] = "Thanks for registering with MyFlix. Please sign in."
         redirect_to sign_in_path
       else
         flash[:error] = charge.error_message
