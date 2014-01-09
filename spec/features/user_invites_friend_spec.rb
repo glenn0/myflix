@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "User invites friend" do
+feature "User invites friend", {js: true} do
     before do
         StripeWrapper::Charge.stub(:create)
     end

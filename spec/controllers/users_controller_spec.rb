@@ -43,7 +43,8 @@ describe UsersController do
       end
 
       it "creates a user" do
-        expect{post_valid_inputs}.to change(User, :count).by(1)
+        post_valid_inputs
+        expect(User.count).to eq(1)
       end
 
       it "redirects to the sign in page" do
