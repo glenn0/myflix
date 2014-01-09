@@ -18,22 +18,22 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    if @user.save
-      if params[:invitation_token].present?
-        invitation = Invitation.where(token: params[:invitation_token]).first
-        @user.follow(invitation.sender)
-        invitation.sender.follow(@user)
-        invitation.update_column(:token, nil)
-      end
-      Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-      Stripe::Charge.create(
+    if @user.valid?
+      charge = StripeWrapper::Charge.create(
         :amount => 999,
-        :currency => "usd",
         :card => params[:stripeToken],
         :description => "MyFlix subscription for #{@user.email}."
       )
-      AppMailer.delay.welcome_email(@user)
-      redirect_to sign_in_path
+      if charge.successful?
+        @user.save
+        handle_invitation
+        AppMailer.delay.welcome_email(@user)
+        flash[:success] = "Thanks for registering with MyFlix. Please sign in."
+        redirect_to sign_in_path
+      else
+        flash[:error] = charge.error_message
+        render :new
+      end
     else
       render :new
     end
@@ -43,5 +43,16 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @queue_items = @user.queue_items
     @reviews = @user.reviews
+  end
+end
+
+private
+
+def handle_invitation
+  if params[:invitation_token].present?
+    invitation = Invitation.where(token: params[:invitation_token]).first
+    @user.follow(invitation.sender)
+    invitation.sender.follow(@user)
+    invitation.update_column(:token, nil)
   end
 end

@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/tokens
+    body:
+      encoding: US-ASCII
+      string: card[number]=4000000000000002&card[exp_month]=12&card[exp_year]=2016&card[cvc]=314
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.9.9
+      Authorization:
+      - Bearer sk_test_tTR3dHelmvlAvuJbrlw7L4Qr
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - ! '{"bindings_version":"1.9.9","lang":"ruby","lang_version":"1.9.3 p448 (2013-06-27)","platform":"x86_64-darwin12.4.0","publisher":"stripe","uname":"Darwin
+        G-Dog.local 13.0.0 Darwin Kernel Version 13.0.0: Thu Sep 19 22:22:27 PDT 2013;
+        root:xnu-2422.1.72~6/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '82'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 06 Jan 2014 11:15:13 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '571'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - no-cache, no-store
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Max-Age:
+      - '300'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: US-ASCII
+      string: ! "{\n  \"id\": \"tok_103G7a2cz2bVk3a9xa0m3kEG\",\n  \"livemode\": false,\n
+        \ \"created\": 1389006912,\n  \"used\": false,\n  \"object\": \"token\",\n
+        \ \"type\": \"card\",\n  \"card\": {\n    \"id\": \"card_103G7a2cz2bVk3a94K42xbTI\",\n
+        \   \"object\": \"card\",\n    \"last4\": \"0002\",\n    \"type\": \"Visa\",\n
+        \   \"exp_month\": 12,\n    \"exp_year\": 2016,\n    \"fingerprint\": \"mDkO2C8KUhVGccce\",\n
+        \   \"customer\": null,\n    \"country\": \"US\",\n    \"name\": null,\n    \"address_line1\":
+        null,\n    \"address_line2\": null,\n    \"address_city\": null,\n    \"address_state\":
+        null,\n    \"address_zip\": null,\n    \"address_country\": null\n  }\n}\n"
+    http_version: 
+  recorded_at: Mon, 06 Jan 2014 11:15:13 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/charges
+    body:
+      encoding: US-ASCII
+      string: amount=999&currency=usd&card=tok_103G7a2cz2bVk3a9xa0m3kEG&description=An%20invalid%20charge
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.9.9
+      Authorization:
+      - Bearer sk_test_tTR3dHelmvlAvuJbrlw7L4Qr
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - ! '{"bindings_version":"1.9.9","lang":"ruby","lang_version":"1.9.3 p448 (2013-06-27)","platform":"x86_64-darwin12.4.0","publisher":"stripe","uname":"Darwin
+        G-Dog.local 13.0.0 Darwin Kernel Version 13.0.0: Thu Sep 19 22:22:27 PDT 2013;
+        root:xnu-2422.1.72~6/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '91'
+  response:
+    status:
+      code: 402
+      message: Payment Required
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 06 Jan 2014 11:15:14 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '162'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - no-cache, no-store
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Max-Age:
+      - '300'
+    body:
+      encoding: US-ASCII
+      string: ! "{\n  \"error\": {\n    \"message\": \"Your card was declined.\",\n
+        \   \"type\": \"card_error\",\n    \"code\": \"card_declined\",\n    \"charge\":
+        \"ch_103G7a2cz2bVk3a9MR9reOtb\"\n  }\n}\n"
+    http_version: 
+  recorded_at: Mon, 06 Jan 2014 11:15:15 GMT
+recorded_with: VCR 2.8.0

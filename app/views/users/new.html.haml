@@ -20,13 +20,13 @@ Stripe.setPublishableKey("#{ENV['STRIPE_PUBLISHABLE_KEY']}");
         %fieldset.credit_card
           %span.payment-errors
           .control-group
-            %label.control-label Credit Card Number
+            %label.control-label(for="credit-card-number") Credit Card Number
             .controls
-              %input.span3(type="text" data-stripe="number")
+              %input.span3#credit-card-number(type="text" data-stripe="number")
           .control-group
-            %label.control-label CVC
+            %label.control-label(for="cvc") CVC
             .controls
-              %input.span3(type="text" data-stripe="cvc")
+              %input.span3#cvc(type="text" data-stripe="cvc")
           .control-group
             %label.control-label Expiration
             .controls
