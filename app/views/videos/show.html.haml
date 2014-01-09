@@ -6,7 +6,8 @@
       .video_info.span3
         %header
           %h3= @video.title
-          %span Rating: #{@video.reviews.count > 0 ? @video.average_rating.to_s + "/5.0" : "Not yet rated."}
+          %span Rating:
+          = @video.rating
         %p= @video.description
         .actions
           %a.btn.btn-primary(href="#{@video.video_link}") Watch Now
